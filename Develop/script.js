@@ -3,20 +3,34 @@
 // in the html.
 let today =dayjs();
 let saveBtn = document.querySelector('.saveBtn');
+
 function init() {
   let saveItems =JSON.parse(localStorage.getItem('savedItems'));{}
+//do an if statment to check in saved items and if yes.. then update it. but then if not have something else just have zero items
+
 saveBtn.addEventListener('click', saveItems)
-
-let currentHour = dayjs().hour(' h:mm:ss a');
-console.log(currentHour);
-
-if (idhr < currentHour) {
-
 }
 
+//loggin current hour
+let currentHour = dayjs().hour();
+console.log('good morning');
+console.log(currentHour);
+
+//display hr of each division
+let divId = document.getElementById('hr-9');
+let idHr =  divId.dataset.time;
+console.log(idHr);
+
+
+//displays current date
 $('#currentDay').text(today.format('MMM D, YYYY'));
+
+
+//function to change block color to either past, present, or future
+
 $(function changeBlockColor() {
-  if (idHR < currentHour) {
+  if ( < currentHour) {
+
     //change class to past
 
 
@@ -28,7 +42,7 @@ $(function changeBlockColor() {
   else {
     //set class to futre
   }
-  }
+  
 
 
 
@@ -50,5 +64,7 @@ $(function changeBlockColor() {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  init();
-});
+
+
+
+init();
