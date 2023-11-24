@@ -3,6 +3,7 @@
 // in the html.
 let today =dayjs();
 let saveBtn = document.querySelector('.saveBtn');
+//items for appending color block change
 
 function init() {
   let saveItems =JSON.parse(localStorage.getItem('savedItems'));{}
@@ -10,6 +11,9 @@ function init() {
 
 saveBtn.addEventListener('click', saveItems)
 }
+
+
+
 
 //loggin current hour
 let currentHour = dayjs().hour();
@@ -27,23 +31,27 @@ $('#currentDay').text(today.format('MMM D, YYYY'));
 
 
 //function to change block color to either past, present, or future
+ let textArea = document.getElementsByClassName('col-8 col-md-10 description');
+ 
+textArea.setAttribute("style", "background-color: #d3d3d3;");
 
-$(function changeBlockColor() {
-  if ( < currentHour) {
+
+$(function PastPresentOrFutre() {
+  if ( idHr < currentHour) {
 
     //change class to past
 
 
-  } else if (idHR === currentHour) {
+  } else if (idHr === currentHour) {
     //set class to present
 
   }
 
   else {
-    //set class to futre
+    //set class to future
   }
   
-
+});
 
 
   // TODO: Add a listener for click events on the save button. This code should
@@ -67,4 +75,3 @@ $(function changeBlockColor() {
 
 
 
-init();
