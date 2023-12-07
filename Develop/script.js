@@ -1,77 +1,95 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-let today =dayjs();
-let saveBtn = document.querySelector('.saveBtn');
-//items for appending color block change
 
-function init() {
-  let saveItems =JSON.parse(localStorage.getItem('savedItems'));{}
-//do an if statment to check in saved items and if yes.. then update it. but then if not have something else just have zero items
-
-saveBtn.addEventListener('click', saveItems)
-}
+let today = dayjs();
+let saveBtns = document.querySelectorAll('.saveBtn');
+let timeBlock = document.querySelectorAll('.time-block');
 
 
+$(function () {
+  //Function to load the saved tasks back to the website on opening
+  function loadingSavedTasks() {
 
+    //Retrieving the items from localStorage
+    let schedules = localStorage.getItem('savedItems');
+    console.log(schedules);
+    
+    if (schedules) {
+      //Parsing the array of savedItems
+      schedules = JSON.parse(schedules) || [];
 
-//loggin current hour
-let currentHour = dayjs().hour();
-console.log('good morning');
-console.log(currentHour);
+      //Repopulate to-do task to the appripriate hour that user has input
+      for (let i = 0; i < schedules.length; i++) {
+        console.log(schedules [i]); //Loggin each schedule item
 
-//display hr of each division
-let divId = document.getElementById('hr-9');
-let idHr =  divId.dataset.time;
-console.log(idHr);
+        let hour = schedules[i].hour;
+        let task = schedules[i].task; 
 
-
-//displays current date
-$('#currentDay').text(today.format('MMM D, YYYY'));
-
-
-//function to change block color to either past, present, or future
- let textArea = document.getElementsByClassName('col-8 col-md-10 description');
- 
-textArea.setAttribute("style", "background-color: #d3d3d3;");
-
-
-$(function PastPresentOrFutre() {
-  if ( idHr < currentHour) {
-
-    //change class to past
-
-
-  } else if (idHr === currentHour) {
-    //set class to present
-
-  }
-
-  else {
-    //set class to future
-  }
+//select textArea to populate, first selecting the div
+$('#' + schedules[i].hour + ' .description').val(schedules[i].task)
+      }
   
-});
+    }
+  }
+
+//Adding click listener for each saveBtns
+    for (let index = 0; index < saveBtns.length; index++) {
+   saveBtns[index].addEventListener('click', saveItems)
+
+    }
 
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
+      //Saving each item typed in the 'time-block' to the designated hour
+      function saveItems() {
+        let saveButton = $(this);
+        let writeBlock = saveButton.siblings('.description').val();
+        let hour = saveButton.parent('.time-block').attr('id');
+        let toDo = {
+          task: writeBlock,
+          hour: hour,
+        };
+        let savedItems = JSON.parse(localStorage.getItem('savedItems')) || [];
+        savedItems.push(toDo);
+        localStorage.setItem('savedItems', JSON.stringify(savedItems));
+
+      }
+
+
+
+      //loggin current hour
+      let currentHour = dayjs().hour();
+      console.log(currentHour);
+
+
+      //displays current date
+      $('#currentDay').text(today.format('MMM D, YYYY'));
+
+
+
+      //function to change the color of the timeblocks based on comparing it to the currentHour
+      function PastPresentOrFutre() {
+        $(".time-block").each(function () {
+          let timeBlock = parseInt(this.id);
+          if
+            (currentHour > timeBlock) {
+            $(this).addClass('past');
+          } if (currentHour === timeBlock) {
+            $(this).addClass('present');
+          } if (currentHour < timeBlock) {
+            $(this).addClass('future');
+          }
+        });
+      }
+
+
+      //Calling functions
+      PastPresentOrFutre();
+     
+      loadingSavedTasks();
+
+    
+  });
+
+
+
 
 
 
